@@ -1,11 +1,13 @@
 智能母猪饲喂器BW800 羊头测试wifi连接服务器
 ===========================================
 
-[有道的相关笔记](http://note.youdao.com/share/?id=2653313eba0d99860e54722c7ff45291&type=note)
+[有道的相关笔记 有通信协议与例子](http://note.youdao.com/share/?id=2653313eba0d99860e54722c7ff45291&type=note)
 
 [go 使用tcp的例子](http://note.youdao.com/share/?id=4069cd11a0ae1495a79e8a62f689470b&type=note)
 
 [go tcp中判断报文尾部获取一条报文](http://note.youdao.com/share/?id=56d0dcacf0a823701042b4addb6ecd42&type=note)
+
+[判断两个比特数组是否相等](http://note.youdao.com/share/?id=46e0bb9570c6b0b72caa1e72605b0ef8&type=note)
 
 总体架构说明
 -----------

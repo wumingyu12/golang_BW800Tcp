@@ -8,13 +8,14 @@ import (
 
 //常量
 const (
-	IP = "10.33.51.107"
+	IP   = "10.33.51.107" //服务器地址
+	PORT = "9999"         //服务端口
 )
 
 func main() {
 	var tcpAddr *net.TCPAddr
 
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", IP+":9999")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", IP+":"+PORT)
 
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 
