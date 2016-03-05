@@ -1,4 +1,4 @@
-package BW800
+package BW800Tcp
 
 import (
 	"net"
@@ -13,5 +13,4 @@ func (b *Bw800Container) AddBW800(conn *net.TCPConn) { //向容器中添加BW800
 	instance.construct(conn) //实例化该tcp连接
 	instance.RunThread()     //启动实例里面的线程
 	b.BW800S = append(b.BW800S, instance)
-
 }

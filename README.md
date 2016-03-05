@@ -21,6 +21,20 @@
 
 3. 将BW800得到的数据放到sqlite数据库中.[sqlite 与go的结合使用](http://note.youdao.com/share/?id=52ad9474de0a5b76ca76928a92ab6e5e&type=note)
 
+主要用法
+-------------
+```go
+	fmt.Println("A client connected : " + tcpConn.RemoteAddr().String())
+	var mycontain = &BW800Tcp.Bw800Container{}
+	mycontain.AddBW800(tcpConn)
+	mes := []byte{0x8A, 0x9B, 0x02, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x02, 0x2E}
+	mycontain.BW800S[0].WriteChan <- mes
+	fmt.Println(<-mycontain.BW800S[0].ReadChan)
+```
+一个tcp连接过来后创建一个实例并加到一个容器内，该实例会自动回复心跳包和登录包，如果要发送一些协议报文，只要向这个实例里面的WriteChan写入要发送的报文
+在ReadChan里面接收返回的报文就行
+
+
 连接流程
 ------------
 1. BW800里面输入服务器ip 端口号。

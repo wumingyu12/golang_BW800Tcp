@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./BW800"
+	"./BW800Tcp"
 	"fmt"
 	"net"
 	"time"
@@ -29,18 +29,10 @@ func main() {
 		}
 
 		fmt.Println("A client connected : " + tcpConn.RemoteAddr().String())
-		var mycontain = &BW800.Bw800Container{}
+		var mycontain = &BW800Tcp.Bw800Container{}
 		mycontain.AddBW800(tcpConn)
 		mes := []byte{0x8A, 0x9B, 0x02, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x02, 0x2E}
 		mycontain.BW800S[0].WriteChan <- mes
 		fmt.Println(<-mycontain.BW800S[0].ReadChan)
-		time.Sleep(time.Second * 5)
-		mycontain.BW800S[0].WriteChan <- mes
-		fmt.Println(<-mycontain.BW800S[0].ReadChan)
-		time.Sleep(time.Second * 5)
-		mycontain.BW800S[0].WriteChan <- mes
-		fmt.Println(<-mycontain.BW800S[0].ReadChan)
-
 	}
-
 }

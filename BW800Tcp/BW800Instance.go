@@ -1,11 +1,15 @@
-package BW800
+package BW800Tcp
 
 import (
-	"fmt"
+	"log"
 	"net"
 	"reflect"
 	"time"
 )
+
+func init() {
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+}
 
 type BW800Instance struct {
 	EquAddr        []byte //设备地址，注意是小端排列如 E7 03 00 00 地址就是0x3e7就是999，
@@ -51,11 +55,14 @@ func (instance *BW800Instance) WriteThread() {
 			break
 		}
 	}
-	fmt.Println("启动发送命令线程")
+	ipStr := instance.TcpConnect.RemoteAddr().String()
+	log.Printf("启动 %s 发送报文线程\n", ipStr)
 	//mes := []byte{0x8A, 0x9B, 0x02, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x02, 0x2E}
 	//instance.WriteChan <- mes
 	for {
-		instance.TcpConnect.Write(<-instance.WriteChan)
+		tempmsg := <-instance.WriteChan
+		log.Printf("服务器发送报文：%x 到 %s\n", tempmsg, ipStr)
+		instance.TcpConnect.Write(tempmsg)
 		time.Sleep(time.Second * 1) //避免和另一个线程的write粘包，见文档  golang 粘包的问题
 	}
 }
@@ -67,9 +74,11 @@ func (instance *BW800Instance) WriteThread() {
 	4.将获取到的报文，交给报文处理函数messageHandle处理。
  ****************************************************************************/
 func (instance *BW800Instance) ReadThread() { //启动线程用来接收数据
+
 	ipStr := instance.TcpConnect.RemoteAddr().String()
+	log.Printf("启动 %s 接收报文线程\n", ipStr)
 	defer func() {
-		fmt.Println("disconnected :" + ipStr)
+		log.Println("disconnected :" + ipStr)
 		instance.TcpConnect.Close()
 	}()
 
@@ -82,6 +91,8 @@ func (instance *BW800Instance) ReadThread() { //启动线程用来接收数据
 	//创建2个变量，代表前一次读取是否超时，和这一次读取是否超时，判断如果前一次没有超时，这次超时了就代表读取到报文尾部了
 	var timeoutFlag1 = true //前一次读取，是否超时标志位，默认为1，如果默认为无超时第一次的超时将会判断为报文尾部
 	var timeoutFlag2 = true //当前读取是否超时标志位，默认有超时
+	//计时
+
 	//循环一直检测发送的数据
 	for {
 		//每次就读取一个比特
@@ -91,13 +102,13 @@ func (instance *BW800Instance) ReadThread() { //启动线程用来接收数据
 
 		//如果超时，分成2种可能，一种为读到报文尾部了，一种为没有任何报文读取超时
 		if err != nil {
-			fmt.Println("请求超时" + ipStr)
+			//fmt.Printf("\rOn 连接-%s-读超时\n", ipStr)
 			timeoutFlag1 = timeoutFlag2 //将超时标志赋值
 			timeoutFlag2 = true         //设置当前超时标志为yes,代表当前为超时
 			//如果这次超时是读取到报文尾部导致的。
 			//通过2个标志位判断当前读取的比特是否为报文尾,如果标志1超时没有超时并且标记2超时了，就代表读到报文尾部
 			if (timeoutFlag1 == false) && (timeoutFlag2 == true) {
-				fmt.Printf("结果：%x\n", result)
+				log.Printf("从 %s 收到结果：%x\n", ipStr, result)
 				//运行报文处理函数
 				messageHandle(instance, result)
 			}
@@ -144,7 +155,6 @@ func messageHandle(instance *BW800Instance, msg []byte) {
 		eq1 := reflect.DeepEqual(logingMessageExample[0:3], msg[0:3])   //判断第一处地方是否相等就是头与类型码是否相等
 		eq2 := reflect.DeepEqual(logingMessageExample[7:13], msg[7:13]) //判断第二处地方是否相等就是寄存器地址
 		if eq1 && eq2 {
-			fmt.Println("11") //如果两处都相等就认为是一条登录报文
 			confirmExample := []byte{0x8A, 0x9B, 0x02, 0x00, 0x00, 0x00, 0x00, 0x06, 0x90, 0x00, 0x00, 0x01, 0x00, 0xBE}
 			//登录包回复组包
 			confirmLogin := append(confirmExample[0:3], msg[3:7]...) //在报文头后面加上设备地址
@@ -153,7 +163,7 @@ func messageHandle(instance *BW800Instance, msg []byte) {
 
 			instance.TcpConnect.Write(confirmLogin)
 			time.Sleep(time.Second * 1) //避免和另一个线程的write粘包，见文档  golang 粘包的问题
-
+			log.Printf("服务器回复登录报文：%x\n", confirmLogin)
 			instance.IfOnline = true //确认在线
 
 			return
@@ -165,7 +175,6 @@ func messageHandle(instance *BW800Instance, msg []byte) {
 		eq1 := reflect.DeepEqual(pollingMessageExample[0:3], msg[0:3])   //判断第一处地方是否相等就是头与类型码是否相等
 		eq2 := reflect.DeepEqual(pollingMessageExample[7:13], msg[7:13]) //判断第一处地方是否相等就是头与类型码是否相等
 		if eq1 && eq2 {
-			fmt.Println("22222")
 			confirmPollingExample := []byte{0x8A, 0x9B, 0x02, 0x00, 0x00, 0x00, 0x00, 0x06, 0x90, 0x01, 0x00, 0x01, 0x00, 0xBF}
 			//登录包回复组包
 			confirmPolling := append(confirmPollingExample[0:3], msg[3:7]...) //在报文头后面加上设备地址
@@ -174,7 +183,7 @@ func messageHandle(instance *BW800Instance, msg []byte) {
 
 			instance.TcpConnect.Write(confirmPolling) //发送心跳回复报文
 			time.Sleep(time.Second * 1)               ////避免和另一个线程的write粘包，见文档  golang 粘包的问题
-
+			log.Printf("服务器回复心跳报文：%x\n", confirmPolling)
 			//将心跳包里面的设备地址赋值到结构体中
 			instance.EquAddr = msg[3:7]
 			instance.IfOnline = true //确认在线
