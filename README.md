@@ -9,6 +9,10 @@
 
 [判断两个比特数组是否相等](http://note.youdao.com/share/?id=46e0bb9570c6b0b72caa1e72605b0ef8&type=note)
 
+[golang 控制台打印替代前面的内容](http://note.youdao.com/share/?id=d7d9272cf0e8ff26dd43cdb1f7242aba&type=note)
+
+[golang 粘包的问题](http://note.youdao.com/share/?id=bf7107840bba285aa16b8e6f81222113&type=note)
+
 总体架构说明
 -----------
 1. BW800用的wifi模块为esp8266
@@ -18,7 +22,7 @@
 3. 将BW800得到的数据放到sqlite数据库中.[sqlite 与go的结合使用](http://note.youdao.com/share/?id=52ad9474de0a5b76ca76928a92ab6e5e&type=note)
 
 连接流程
--------------
+------------
 1. BW800里面输入服务器ip 端口号。
 
 2. 服务器会收到BW800发过来的登录报文，服务器必须回复该报文，如果不回复3次，BW800会重新发起一个tcp连接。
@@ -38,3 +42,10 @@ type Bw800Container struct {
 
 func (b *Bw800Container) AddBW800(conn *net.TCPConn) { //向容器中添加BW800的实例
 ```
+
+* 结构体 BW800Instance
+	成员变量
+	WriteChan      chan []byte //用于存放将要发送的命令
+	ReadChan       chan []byte //用于存放接收到的命令，如果是心跳包，登录包不算会自动回复
+
+	将要发送的命令放到WriteChan中就可以在ReadChan中读取到返回的包
