@@ -5,7 +5,14 @@
 
 [go 使用tcp的例子](http://note.youdao.com/share/?id=4069cd11a0ae1495a79e8a62f689470b&type=note)
 
-[go tcp中判断报文尾部获取一条报文](http://note.youdao.com/share/?id=56d0dcacf0a823701042b4addb6ecd42&type=note)
+[~~go tcp中判断报文尾部获取一条报文~~](http://note.youdao.com/share/?id=56d0dcacf0a823701042b4addb6ecd42&type=note)
+
+事实上tcp包你是不需要判断哪个是包尾的，他发送都是一次一个包这样的
+```go
+	data := make([]byte, 128)
+	i, err := conn.Read(data)  
+    fmt.Println("客户端发来数据:", string(data[0:i]))  
+```
 
 [判断两个比特数组是否相等](http://note.youdao.com/share/?id=46e0bb9570c6b0b72caa1e72605b0ef8&type=note)
 

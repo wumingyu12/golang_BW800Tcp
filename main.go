@@ -4,7 +4,6 @@ import (
 	"./BW800Tcp"
 	"fmt"
 	"net"
-	"time"
 )
 
 //常量
@@ -13,7 +12,7 @@ const (
 	PORT = "9999"         //服务端口
 )
 
-func main() {
+func tcplisten() {
 	var tcpAddr *net.TCPAddr
 
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", IP+":"+PORT)
@@ -35,4 +34,8 @@ func main() {
 		mycontain.BW800S[0].WriteChan <- mes
 		fmt.Println(<-mycontain.BW800S[0].ReadChan)
 	}
+}
+
+func main() {
+	tcplisten()
 }
