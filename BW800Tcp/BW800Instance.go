@@ -62,8 +62,7 @@ func (instance *BW800Instance) WriteThread() {
 	for {
 		tempmsg := <-instance.WriteChan
 		log.Printf("服务器发送报文：%x 到 %s\n", tempmsg, ipStr)
-		instance.TcpConnect.Write(tempmsg)
-		time.Sleep(time.Second * 1) //避免和另一个线程的write粘包，见文档  golang 粘包的问题
+		instance.TcpConnect.Write(tempmsg) //这里不加sleep但，有一种很特殊的情况就是心跳包回复时恰好这里也发送，就会粘包
 	}
 }
 
@@ -86,6 +85,7 @@ func (instance *BW800Instance) ReadThread() { //启动线程用来接收数据
 	//instance.TcpConnect.Write(mes)
 
 	b := make([]byte, 128)
+
 	//计时
 
 	//循环一直检测发送的数据

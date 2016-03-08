@@ -9,9 +9,14 @@
 
 事实上tcp包你是不需要判断哪个是包尾的，他发送都是一次一个包这样的
 ```go
-	data := make([]byte, 128)
-	i, err := conn.Read(data)  
-    fmt.Println("客户端发来数据:", string(data[0:i]))  
+	for {
+		i, err := instance.TcpConnect.Read(b)
+		log.Printf("从 %s 收到结果：%x\n", ipStr, b[0:i])
+		messageHandle(instance, b[0:i])
+		if err != nil {
+			log.Printf("%sTcp读取错误\n", ipStr)
+		}
+	} 
 ```
 
 [判断两个比特数组是否相等](http://note.youdao.com/share/?id=46e0bb9570c6b0b72caa1e72605b0ef8&type=note)
@@ -19,6 +24,15 @@
 [golang 控制台打印替代前面的内容](http://note.youdao.com/share/?id=d7d9272cf0e8ff26dd43cdb1f7242aba&type=note)
 
 [golang 粘包的问题](http://note.youdao.com/share/?id=bf7107840bba285aa16b8e6f81222113&type=note)
+
+[使用odoo中的xml-rpc](http://note.youdao.com/share/?id=86d4a757bae17096cd6913597475c3dd&type=note)
+
+[golang 调用odoo xml-rpc](http://note.youdao.com/share/?id=179e06e1c98253938293fc7970e3f8c9&type=note)
+ 工程目录testexample里面有个例子
+
+[go 实例化结构体里面的数组](http://note.youdao.com/share/?id=8ddac16590c1aebc47854dacf33defb4&type=note)
+
+[如果你想查看发给odoo的xml是怎么的数据](http://note.youdao.com/share/?id=6ee1eb2d5fda01a1242231584578868d&type=note)
 
 总体架构说明
 -----------
@@ -49,6 +63,8 @@
 2. 服务器会收到BW800发过来的登录报文，服务器必须回复该报文，如果不回复3次，BW800会重新发起一个tcp连接。
 
 3. BW800收到登录回复报文后，不再发送登录报文，开始发送心跳包，心跳包也要回复，回复内容可以为任意内容。如果3次没回复后会重新发送登录报文。
+
+4. 有一个定时任务，调用odoo模块的函数将数据存储到odoo的数据库中。
 
 类与结构体
 ------------
