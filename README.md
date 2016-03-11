@@ -34,6 +34,10 @@
 
 [如果你想查看发给odoo的xml是怎么的数据](http://note.youdao.com/share/?id=6ee1eb2d5fda01a1242231584578868d&type=note)
 
+[odoo 调用xml rpc的问题](http://note.youdao.com/share/?id=b36461cf93c2da90282f3dce5647a0e6&type=note)
+
+[golang  post 请求服务器 可以用来查看xml-rpc的请求 go请求xml-rpc](http://note.youdao.com/share/?id=562cb25ea3a51b309ef28fa3a0920fb8&type=note)
+
 总体架构说明
 -----------
 1. BW800用的wifi模块为esp8266
@@ -86,3 +90,7 @@ func (b *Bw800Container) AddBW800(conn *net.TCPConn) { //向容器中添加BW800
 	ReadChan       chan []byte //用于存放接收到的命令，如果是心跳包，登录包不算会自动回复
 
 	将要发送的命令放到WriteChan中就可以在ReadChan中读取到返回的包
+
+与odoo的xml-rpc通信
+-------------------
+1.将要发送的结构体转为json发送出去。

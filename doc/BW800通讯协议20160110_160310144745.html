@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BW800通讯协议20160110.md—E:\goproject\wifi_BW800\doc</title>
+    <style type="text/css">
+    html{font-family: sans-serif;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%}body{margin: 0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display: block}audio,canvas,progress,video{display: inline-block;vertical-align: baseline}audio:not([controls]){display: none;height: 0}[hidden],template{display: none}a{background: transparent}a:active,a:hover{outline: 0}abbr[title]{border-bottom: 1px dotted}b,strong{font-weight: bold}dfn{font-style: italic}h1{font-size: 2em;margin: 0.67em 0}mark{background: #ff0;color: #000}small{font-size: 80%}sub,sup{font-size: 75%;line-height: 0;position: relative;vertical-align: baseline}sup{top: -0.5em}sub{bottom: -0.25em}img{border: 0}svg:not(:root){overflow: hidden}figure{margin: 1em 40px}hr{box-sizing: content-box;height: 0}pre{overflow: auto}code,kbd,pre,samp{font-family: monospace, monospace;font-size: 1em}button,input,optgroup,select,textarea{color: inherit;font: inherit;margin: 0}button{overflow: visible}button,select{text-transform: none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance: button;cursor: pointer}button[disabled],html input[disabled]{cursor: default}button::-moz-focus-inner,input::-moz-focus-inner{border: 0;padding: 0}input{line-height: normal}input[type="checkbox"],input[type="radio"]{box-sizing: border-box;padding: 0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height: auto}input[type="search"]{-webkit-appearance: textfield;box-sizing: content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance: none}fieldset{border: 1px solid #c0c0c0;margin: 0 2px;padding: 0.35em 0.625em 0.75em}legend{border: 0;padding: 0}textarea{overflow: auto}optgroup{font-weight: bold}table{border-collapse: collapse;border-spacing: 0}td,th{padding: 0}*{box-sizing: border-box}input,select,textarea,button{font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"}body{min-width: 1020px;font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";color: #333;background-color: #fff}a{color: #4183c4;text-decoration: none}a:hover,a:active{text-decoration: underline}hr,.rule{height: 0;margin: 15px 0;overflow: hidden;background: transparent;border: 0;border-bottom: 1px solid #ddd}hr:before,.rule:before{display: table;content: ""}hr:after,.rule:after{display: table;clear: both;content: ""}h1,h2,h3,h4,h5,h6{margin-top: 15px;margin-bottom: 15px;line-height: 1.1}h1{font-size: 30px}h2{font-size: 21px}h3{font-size: 16px}h4{font-size: 14px}h5{font-size: 12px}h6{font-size: 11px}small{font-size: 90%}blockquote{margin: 0}.lead{margin-bottom: 30px;font-size: 20px;font-weight: 300;color: #555}.text-muted{color: #999}.text-danger{color: #bd2c00}.text-emphasized{font-weight: bold;color: #333}ul,ol{padding: 0;margin-top: 0;margin-bottom: 0}ol ol,ul ol{list-style-type: lower-roman}ul ul ol,ul ol ol,ol ul ol,ol ol ol{list-style-type: lower-alpha}dd{margin-left: 0}tt,code{font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;font-size: 12px}pre{margin-top: 0;margin-bottom: 0;font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace}#realtime .status{overflow: visible;position: absolute;top: -5px;left: 0;background: url("/public/images/github-status.png");width: 26px;height: 26px;display: block;margin: 0 5px 0 0}#realtime .up{background-position: 0 0}#realtime .problem{background-position: 0 -53px}#realtime .down{background-position: 0 -26px}.container{max-width: 920px;margin: 0 auto 20px auto}#header{background: #FAFAFA;background: -moz-linear-gradient(#FAFAFA, #EAEAEA);background: -webkit-linear-gradient(#FAFAFA, #EAEAEA);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eaeaea')";border-bottom: 1px solid #CACACA;box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),0 0 10px rgba(0, 0, 0, 0.1)}#markup{padding: 3px}#markup article{padding-top: 30px}.markdown-body{overflow: hidden;font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;font-size: 16px;line-height: 1.6;word-wrap: break-word}.markdown-body>*:first-child{margin-top: 0 !important}.markdown-body>*:last-child{margin-bottom: 0 !important}.markdown-body .absent{color: #c00}.markdown-body .anchor{position: absolute;top: 0;left: 0;display: block;padding-right: 6px;padding-left: 30px;margin-left: -30px}.markdown-body .anchor:focus{outline: none}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{position: relative;margin-top: 1em;margin-bottom: 16px;font-weight: bold;line-height: 1.4}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{display: none;color: #000;vertical-align: middle}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{padding-left: 8px;margin-left: -30px;text-decoration: none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{display: inline-block}.markdown-body h1 tt,.markdown-body h1 code,.markdown-body h2 tt,.markdown-body h2 code,.markdown-body h3 tt,.markdown-body h3 code,.markdown-body h4 tt,.markdown-body h4 code,.markdown-body h5 tt,.markdown-body h5 code,.markdown-body h6 tt,.markdown-body h6 code{font-size: inherit}.markdown-body h1{padding-bottom: 0.3em;font-size: 2.25em;line-height: 1.2;border-bottom: 1px solid #eee}.markdown-body h1 .anchor{line-height: 1}.markdown-body h2{padding-bottom: 0.3em;font-size: 1.75em;line-height: 1.225;border-bottom: 1px solid #eee}.markdown-body h2 .anchor{line-height: 1}.markdown-body h3{font-size: 1.5em;line-height: 1.43}.markdown-body h3 .anchor{line-height: 1.2}.markdown-body h4{font-size: 1.25em}.markdown-body h4 .anchor{line-height: 1.2}.markdown-body h5{font-size: 1em}.markdown-body h5 .anchor{line-height: 1.1}.markdown-body h6{font-size: 1em;color: #777}.markdown-body h6 .anchor{line-height: 1.1}.markdown-body p,.markdown-body blockquote,.markdown-body ul,.markdown-body ol,.markdown-body dl,.markdown-body table,.markdown-body pre{margin-top: 0;margin-bottom: 16px}.markdown-body hr{height: 4px;padding: 0;margin: 16px 0;background-color: #e7e7e7;border: 0 none}.markdown-body ul,.markdown-body ol{padding-left: 2em}.markdown-body ul.no-list,.markdown-body ol.no-list{padding: 0;list-style-type: none}.markdown-body ul ul,.markdown-body ul ol,.markdown-body ol ol,.markdown-body ol ul{margin-top: 0;margin-bottom: 0}.markdown-body li>p{margin-top: 16px}.markdown-body dl{padding: 0}.markdown-body dl dt{padding: 0;margin-top: 16px;font-size: 1em;font-style: italic;font-weight: bold}.markdown-body dl dd{padding: 0 16px;margin-bottom: 16px}.markdown-body blockquote{padding: 0 15px;color: #777;border-left: 4px solid #ddd}.markdown-body blockquote>:first-child{margin-top: 0}.markdown-body blockquote>:last-child{margin-bottom: 0}.markdown-body table{display: block;width: 100%;overflow: auto;word-break: normal;word-break: keep-all}.markdown-body table th{font-weight: bold}.markdown-body table th,.markdown-body table td{padding: 6px 13px;border: 1px solid #ddd}.markdown-body table tr{background-color: #fff;border-top: 1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color: #f8f8f8}.markdown-body img{max-width: 100%;box-sizing: border-box}.markdown-body span.frame{display: block;overflow: hidden}.markdown-body span.frame>span{display: block;float: left;width: auto;padding: 7px;margin: 13px 0 0;overflow: hidden;border: 1px solid #ddd}.markdown-body span.frame span img{display: block;float: left}.markdown-body span.frame span span{display: block;padding: 5px 0 0;clear: both;color: #333}.markdown-body span.align-center{display: block;overflow: hidden;clear: both}.markdown-body span.align-center>span{display: block;margin: 13px auto 0;overflow: hidden;text-align: center}.markdown-body span.align-center span img{margin: 0 auto;text-align: center}.markdown-body span.align-right{display: block;overflow: hidden;clear: both}.markdown-body span.align-right>span{display: block;margin: 13px 0 0;overflow: hidden;text-align: right}.markdown-body span.align-right span img{margin: 0;text-align: right}.markdown-body span.float-left{display: block;float: left;margin-right: 13px;overflow: hidden}.markdown-body span.float-left span{margin: 13px 0 0}.markdown-body span.float-right{display: block;float: right;margin-left: 13px;overflow: hidden}.markdown-body span.float-right>span{display: block;margin: 13px auto 0;overflow: hidden;text-align: right}.markdown-body code,.markdown-body tt{padding: 0;padding-top: 0.2em;padding-bottom: 0.2em;margin: 0;font-size: 85%;background-color: rgba(0,0,0,0.04);border-radius: 3px}.markdown-body code:before,.markdown-body code:after,.markdown-body tt:before,.markdown-body tt:after{letter-spacing: -0.2em;content: "\00a0"}.markdown-body code br,.markdown-body tt br{display: none}.markdown-body del code{text-decoration: inherit}.markdown-body pre>code{padding: 0;margin: 0;font-size: 100%;word-break: normal;white-space: pre;background: transparent;border: 0}.markdown-body .highlight{margin-bottom: 16px}.markdown-body .highlight pre,.markdown-body pre{padding: 16px;overflow: auto;font-size: 85%;line-height: 1.45;background-color: #f7f7f7;border-radius: 3px}.markdown-body .highlight pre{margin-bottom: 0;word-break: normal}.markdown-body pre{word-wrap: normal}.markdown-body pre code,.markdown-body pre tt{display: inline;max-width: initial;padding: 0;margin: 0;overflow: initial;line-height: inherit;word-wrap: normal;background-color: transparent;border: 0}.markdown-body pre code:before,.markdown-body pre code:after,.markdown-body pre tt:before,.markdown-body pre tt:after{content: normal}.markdown-body kbd{display: inline-block;padding: 3px 5px;font-size: 11px;line-height: 10px;color: #555;vertical-align: middle;background-color: #fcfcfc;border: solid 1px #ccc;border-bottom-color: #bbb;border-radius: 3px;box-shadow: inset 0 -1px 0 #bbb}.codehilite{background: #ffffff}.codehilite .c{color: #999988;font-style: italic}.codehilite .err{color: #a61717;background-color: #e3d2d2}.codehilite .k{color: #000000;font-weight: bold}.codehilite .o{color: #000000;font-weight: bold}.codehilite .cm{color: #999988;font-style: italic}.codehilite .cp{color: #999999;font-weight: bold}.codehilite .c1{color: #999988;font-style: italic}.codehilite .cs{color: #999999;font-weight: bold;font-style: italic}.codehilite .gd{color: #000000;background-color: #ffdddd}.codehilite .gd .x{color: #000000;background-color: #ffaaaa}.codehilite .ge{color: #000000;font-style: italic}.codehilite .gr{color: #aa0000}.codehilite .gh{color: #999999}.codehilite .gi{color: #000000;background-color: #ddffdd}.codehilite .gi .x{color: #000000;background-color: #aaffaa}.codehilite .go{color: #888888}.codehilite .gp{color: #555555}.codehilite .gs{font-weight: bold}.codehilite .gu{color: #aaaaaa}.codehilite .gt{color: #aa0000}.codehilite .kc{color: #000000;font-weight: bold}.codehilite .kd{color: #000000;font-weight: bold}.codehilite .kp{color: #000000;font-weight: bold}.codehilite .kr{color: #000000;font-weight: bold}.codehilite .kt{color: #445588;font-weight: bold}.codehilite .m{color: #009999}.codehilite .s{color: #d14}.codehilite .na{color: #008080}.codehilite .nb{color: #0086B3}.codehilite .nc{color: #445588;font-weight: bold}.codehilite .no{color: #008080}.codehilite .ni{color: #800080}.codehilite .ne{color: #990000;font-weight: bold}.codehilite .nf{color: #990000;font-weight: bold}.codehilite .nn{color: #555555}.codehilite .nt{color: #000080}.codehilite .nv{color: #008080}.codehilite .ow{color: #000000;font-weight: bold}.codehilite .w{color: #bbbbbb}.codehilite .mf{color: #009999}.codehilite .mh{color: #009999}.codehilite .mi{color: #009999}.codehilite .mo{color: #009999}.codehilite .sb{color: #d14}.codehilite .sc{color: #d14}.codehilite .sd{color: #d14}.codehilite .s2{color: #d14}.codehilite .se{color: #d14}.codehilite .sh{color: #d14}.codehilite .si{color: #d14}.codehilite .sx{color: #d14}.codehilite .sr{color: #009926}.codehilite .s1{color: #d14}.codehilite .ss{color: #990073}.codehilite .bp{color: #999999}.codehilite .vc{color: #008080}.codehilite .vg{color: #008080}.codehilite .vi{color: #008080}.codehilite .il{color: #009999}
+    </style>
+    <style type="text/css">
+      .markdown-body hr{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC")}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="markup">
+        <article id="content" class="markdown-body">
+          <h1 id="bw800">BW800通讯协议</h1>
+<div class="toc">
+<ul>
+<li><a href="#bw800">BW800通讯协议</a><ul>
+<li><a href="#bw800_1">BW800简单介绍</a></li>
+<li><a href="#bw800-wifi">BW800 WIFI连接设置</a></li>
+<li><a href="#bw800_2">BW800 登录与心跳机制</a></li>
+<li><a href="#bw800_3">BW800报文说明</a><ul>
+<li><a href="#1">1. 报文格式</a></li>
+<li><a href="#2">2. 读写参数结构体</a><ul>
+<li><a href="#21-0000-184">2.1 参数结构体 开始地址0000  长度184字节</a></li>
+<li><a href="#22-c00">2.2 C=00 读参数</a></li>
+<li><a href="#23-c01">2.3 C=01 写参数</a></li>
+</ul>
+</li>
+<li><a href="#3">3. 读状态结构体</a><ul>
+<li><a href="#31-c02">3.1 状态结构体 C=02</a></li>
+<li><a href="#32-c02">3.2 C=02 读状态</a></li>
+</ul>
+</li>
+<li><a href="#4-c03">4. 远程控制 C=03</a><ul>
+<li><a href="#41-addr0">4.1 读取时间 Addr=0</a></li>
+<li><a href="#42-addr1">4.2 设置取时间 Addr=1</a></li>
+<li><a href="#43-addr2">4.3 控制下料 Addr=2</a></li>
+<li><a href="#44-addr3">4.4 控制下料 Addr=3</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 读取下料记录</a><ul>
+<li><a href="#51-bw800-bw800">5.1 记录结构体 BW800日记录/  BW800记录明细</a></li>
+<li><a href="#52-c04">5.2 读取日下料记录 C=04</a></li>
+<li><a href="#53-c05">5.3 读取记录明细 C=05</a></li>
+</ul>
+</li>
+<li><a href="#6-c0x10">6. C=0x10 登录/读取终端信息/心跳/登出</a><ul>
+<li><a href="#61-addr-0">6.1 终端主动登录服务器 Addr = 0</a></li>
+<li><a href="#62">6.2 服务器读取终端信息</a></li>
+<li><a href="#63">6.3 终端主动发送心跳报文</a></li>
+<li><a href="#63_1">6.3 终端主动发送登出报文</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="bw800_1">BW800简单介绍</h2>
+<ol>
+<li>
+<p>BW800为南牧研发的智能母猪饲喂器，其会根据母猪怀孕期间到分娩到断奶期间的采食量变化决定母猪当天可采食的量。</p>
+</li>
+<li>
+<p>BW800作为输入的部件有一个为母猪食槽内的顶杆，母猪顶起顶杆时，控制器识别为母猪需要采食。控制器随后会根据当前母猪处在的分娩阶段，当天已经吃的量，当天可以吃的量，当前的时间段等一系列参数确定，是否进行下料。</p>
+</li>
+<li>
+<p>控制器的输出设备有2个，分别是下料用的电机与加湿饲料用的电磁阀。</p>
+</li>
+</ol>
+<h2 id="bw800-wifi">BW800 WIFI连接设置</h2>
+<ol>
+<li>
+<p>BW800与上位机进行通信通过wifi进行，进行通信时，确保连接上wifi路由可以ping通服务器。BW800连接的wifi路由器的SSID必须是数字（6位）,密码必须是数字（8位）。wifi连接的设置可以在控制器中的 <strong>地址设置</strong> 菜单中设置。</p>
+</li>
+<li>
+<p>在 <strong>地址设置</strong> 菜单中我们还要设置好服务器的<strong>IP地址</strong>与<strong>端口号</strong>。</p>
+</li>
+<li>
+<p>在 <strong>地址设置</strong> 菜单中我们还要设置一个<strong>设备地址</strong>，该地址将作为设备的唯一标识。</p>
+</li>
+</ol>
+<h2 id="bw800_2">BW800 登录与心跳机制</h2>
+<ol>
+<li>
+<p>BW800正常连接到服务器后，面板上会显示登录。在服务器端观察会发现有一个TCP连接不断发送一条报文，该报文与下面说到的登录报文格式一致。此时服务器端必须回复该登录报文（方法后部分）。如果BW800连续发送<strong>3次登录报文</strong>，服务器端都没有回复，其将会断开此连接，重新进行一次TCP连接。</p>
+</li>
+<li>
+<p>服务器回复BW800后，BW800的面板将会显示<strong>在线</strong>提示，此时BW800会每隔<strong>1分钟</strong>发送一条心跳报文，此时服务器可以回复任意东西。但如果<strong>4次</strong>心跳报文都没有得到回复，BW800将会重新发送登录报文，进入步骤1。</p>
+</li>
+</ol>
+<hr>
+<h2 id="bw800_3">BW800报文说明</h2>
+<h3 id="1">1. 报文格式</h3>
+<p><strong> 报文格式 8A 9B DTYPE DAddr Len C Addr DLen(1) Data  CS </strong></p>
+<table>
+<thead>
+<tr>
+<th>标记</th>
+<th align="center">说明</th>
+<th>Cool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8A 9B</td>
+<td align="center">为包头</td>
+<td>固定为0x8A 0x9B</td>
+</tr>
+<tr>
+<td>DTYPE</td>
+<td align="center">设备类型,</td>
+<td>1字节, BW800 固定为 0x02</td>
+</tr>
+<tr>
+<td>DAddr</td>
+<td align="center">设备地址,</td>
+<td>4字节, 如地址为 999(0x3E7), DAddr = 0xE7 0x03 0x00 0x00</td>
+</tr>
+<tr>
+<td>Len</td>
+<td align="center">长度</td>
+<td>1字节,  为 C 到 CS(包含)的长度</td>
+</tr>
+<tr>
+<td>C</td>
+<td align="center">为控制码，</td>
+<td>最高位为0表示主动发送帧，最高位为1表示回复帧</td>
+</tr>
+<tr>
+<td>Addr</td>
+<td align="center">为地址</td>
+<td>2字节, 如地址是 123 (0x7B) ,Addr = 0x7B 0x00</td>
+</tr>
+<tr>
+<td>DLen(1Byte)</td>
+<td align="center">Data 的长度</td>
+<td></td>
+</tr>
+<tr>
+<td>CS</td>
+<td align="center">校验和</td>
+<td>为 8A + 9B + Num0 + ... + Data 最后1个字节 的 8位数(高位舍弃)的和</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="2">2. 读写参数结构体</h3>
+<h4 id="21-0000-184">2.1 参数结构体 开始地址0000  长度184字节</h4>
+<div class="codehilite"><pre>    <span class="k">typedef</span> <span class="k">struct</span>
+    <span class="p">{</span>
+        <span class="n">U16</span> <span class="n">totalTable</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>                 <span class="c1">//总量曲线 单位10克 1234 表示 12.34kg</span>
+        <span class="n">U16</span> <span class="n">timeTStart</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>                 <span class="c1">//饲喂时间开始</span>
+        <span class="n">U16</span> <span class="n">timeTEnd</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>                   <span class="c1">//饲喂时间结束</span>
+        <span class="n">U16</span> <span class="n">timeTAmount</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>                <span class="c1">//饲喂总量</span>
+        <span class="n">U16</span> <span class="n">calTable</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>                   <span class="c1">//校正表 -- g</span>
+        <span class="n">U16</span> <span class="n">canOver</span><span class="p">;</span>                        <span class="c1">//允许超出量                -- 10%</span>
+        <span class="n">U16</span> <span class="n">xlPer</span><span class="p">;</span>                          <span class="c1">//每次下料多少克 -- 100g</span>
+        <span class="n">U16</span> <span class="n">waterAuto</span><span class="p">;</span>                      <span class="c1">//是否自动下水</span>
+        <span class="n">U16</span> <span class="n">waterTime</span><span class="p">;</span>                      <span class="c1">//下水时间s</span>
+        <span class="n">U16</span> <span class="n">waterSpace</span><span class="p">;</span>                     <span class="c1">//下水间隔s</span>
+        <span class="n">U16</span> <span class="n">usePass</span><span class="p">;</span>                        <span class="c1">//是否使用密码 0 - 不使用 1 - 使用</span>
+        <span class="n">U32</span> <span class="n">addr</span><span class="p">;</span>                           <span class="c1">//控制器地址</span>
+        <span class="n">U32</span> <span class="n">routeName</span><span class="p">;</span>                      <span class="c1">//路由器名称</span>
+        <span class="n">U32</span> <span class="n">routePass</span><span class="p">;</span>                      <span class="c1">//路由器密码</span>
+        <span class="n">U32</span> <span class="n">serverIP</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>                    <span class="c1">//服务器IP地址</span>
+        <span class="n">U32</span> <span class="n">serverPort</span><span class="p">;</span>                     <span class="c1">//服务器端口</span>
+        <span class="n">U16</span> <span class="n">stage</span><span class="p">;</span>                          <span class="c1">//0 - 断奶 1 - 产前 2 - 哺乳</span>
+        <span class="n">U16</span> <span class="n">day</span><span class="p">;</span>                            <span class="c1">//第几日</span>
+        <span class="n">U16</span> <span class="n">hasEat</span><span class="p">;</span>                         <span class="c1">//今天已吃 -- g</span>
+        <span class="n">U16</span> <span class="n">eatDelay</span><span class="p">;</span>                       <span class="c1">//要求喂食延迟</span>
+        <span class="n">U16</span> <span class="n">sons</span><span class="p">;</span>                           <span class="c1">//仔猪头数</span>
+        <span class="n">U8</span>  <span class="n">mday</span><span class="p">;</span>                           <span class="c1">//保存日</span>
+        <span class="n">U8</span>  <span class="n">rev</span><span class="p">;</span>                            <span class="c1">//保留</span>
+        <span class="n">U32</span> <span class="n">password</span><span class="p">;</span>                       <span class="c1">//用户密码</span>
+        <span class="n">U32</span> <span class="n">sum</span><span class="p">;</span>                            <span class="c1">//校验和</span>
+    <span class="p">}</span><span class="n">__czqPara</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="22-c00">2.2 C=00 读参数</h4>
+<div class="codehilite"><pre>Addr 为BW800参数表中要读参数的起始地址，DLen , 为要读的数据长度
+如要读取设备地址为999(0x3E7)的BW800,产前3日以前的饲料总量。
+</pre></div>
+
+
+<p><strong>发送如下报文，读取 <em>参数结构体   totalTable[0]</em> ： </strong> </p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">00</td>
+<td align="center">00    00</td>
+<td align="center">02</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>BW800回复 ，0x312 = 786 = 7.86kg:</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">09</td>
+<td align="center">80</td>
+<td align="center">00    00</td>
+<td align="center">02</td>
+<td>12 03</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="23-c01">2.3 C=01 写参数</h4>
+<p><strong> Addr 为BW800参数表中要写参数的起始地址 </strong></p>
+<p><strong> DLen , 为要写的数据长度 </strong>   </p>
+<p><strong> 如要写设备地址为999(0x3E7)的BW800,参数地址为6 发送如下报文：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">07</td>
+<td align="center">01</td>
+<td align="center">06    00</td>
+<td align="center">02</td>
+<td>17 00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> NM3000回复成功只有一个字节长度，内容为0 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">81</td>
+<td align="center">06    00</td>
+<td align="center">01</td>
+<td>00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="3">3. 读状态结构体</h3>
+<h4 id="31-c02">3.1 状态结构体 C=02</h4>
+<div class="codehilite"><pre>    <span class="k">typedef</span> <span class="k">struct</span>
+        <span class="p">{</span>
+            <span class="n">U8</span>  <span class="n">hasLog</span><span class="p">;</span>         <span class="c1">//是否已经登录</span>
+            <span class="n">U8</span>  <span class="n">onLine</span><span class="p">;</span>         <span class="c1">//是否在线  0 = 离线 , 1 = 连接到wifi , 2 = 发送登录报文 , 3 = 在线</span>
+            <span class="n">U16</span> <span class="n">Count</span><span class="p">;</span>          <span class="c1">//内部计时器</span>
+            <span class="n">U32</span> <span class="n">state</span><span class="p">;</span>          <span class="c1">//输入状态，每位表示一个输入开关量 第一个bit代表顶杆是否触发，其他的31个比特保留</span>
+        <span class="p">}</span><span class="n">__czqState</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="32-c02">3.2 C=02 读状态</h4>
+<p><strong> 如要读取设备地址为999(0x3E7)的BW800,是否已经登录, 发送如下报文：  </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">02</td>
+<td align="center">00    00</td>
+<td align="center">01</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> BW800回复 ，已经登录了 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">09</td>
+<td align="center">82</td>
+<td align="center">00   00</td>
+<td align="center">01</td>
+<td>01</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="4-c03">4. 远程控制 C=03</h3>
+<h4 id="41-addr0">4.1 读取时间 Addr=0</h4>
+<p><strong> 如要读取设备地址为999(0x3E7)的BW800 时间, 发送如下报文：  </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">03</td>
+<td align="center">00    00</td>
+<td align="center">06</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>  BW800回复6字节的时间信息 , 如16年01月10日12时10分22秒 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">09</td>
+<td align="center">83</td>
+<td align="center">00   00</td>
+<td align="center">06</td>
+<td>16 01 10 12 10 22</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="42-addr1">4.2 设置取时间 Addr=1</h4>
+<p><strong> 如要设置设备地址为999(0x3E7)的BW800 时间为 16年01月10日12时10分22秒, 发送如下报文：  </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">0B</td>
+<td align="center">03</td>
+<td align="center">01   00</td>
+<td align="center">06</td>
+<td>16 01 10 12 10 22</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>  BW800回复6字节的时间信息 , 如16年01月10日12时10分22秒 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">83</td>
+<td align="center">01   00</td>
+<td align="center">01</td>
+<td>00（正确）</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="43-addr2">4.3 控制下料 Addr=2</h4>
+<p><strong> 如要控制设备地址为999(0x3E7)的BW800 下料，发送如下报文：  </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">03</td>
+<td align="center">02    00</td>
+<td align="center">00</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>  BW800返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">83</td>
+<td align="center">02   00</td>
+<td align="center">01</td>
+<td>00（正确）</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="44-addr3">4.4 控制下料 Addr=3</h4>
+<p><strong> 如要读取面板LED状态，发送如下报文：  </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">03</td>
+<td align="center">03    00</td>
+<td align="center">02</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>  BW800返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">07</td>
+<td align="center">83</td>
+<td align="center">03   00</td>
+<td align="center">02</td>
+<td>LedState(2bytes)</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre>LedState 定义如下，每一位表示一个LED灯的状态，对应位为1时，灯亮，否则灯灭
+
+LED_ALARM           0x1             //控制器有报警错误
+
+LED_EATALL          0x2             //今日的料已经吃完了
+
+LED_EATLEFT        0x4             //今日的料还有剩余
+</pre></div>
+
+
+<hr>
+<h3 id="5">5. 读取下料记录</h3>
+<h4 id="51-bw800-bw800">5.1 记录结构体 BW800日记录/  BW800记录明细</h4>
+<div class="codehilite"><pre>    <span class="k">typedef</span> <span class="k">struct</span>
+    <span class="p">{</span>
+        <span class="n">U32</span> <span class="n">pigNum</span><span class="p">;</span>     <span class="c1">//猪耳标</span>
+        <span class="n">U32</span> <span class="n">date</span><span class="p">;</span>               <span class="c1">// C=04 记录    : 日期，如 0x27182 = 160130 = 16年1月30日</span>
+                                <span class="c1">// C=05记录明细: 时标 从1970年1月1日0点0分0秒 到现在的秒数</span>
+                                <span class="c1">// 时标为0或者0xffffffff时，记录无效</span>
+        <span class="n">U16</span> <span class="n">amount</span><span class="p">;</span>     <span class="c1">//总量</span>
+        <span class="n">U16</span> <span class="n">actual</span><span class="p">;</span>     <span class="c1">//实际</span>
+        <span class="n">U32</span> <span class="n">sum</span><span class="p">;</span>        <span class="c1">//校验，校验不正确时，记录无效</span>
+    <span class="p">}</span><span class="n">__czqRec</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="52-c04">5.2 读取日下料记录 C=04</h4>
+<p><strong> 最多64条记录 一天一条 </strong></p>
+<div class="codehilite"><pre>Addr 为BW800起始记录编号
+DLen , 为要读多少条记录，最多一次读10条
+注，每条记录长度为16字节
+</pre></div>
+
+
+<p><strong>  如要读取设备地址为999(0x3E7)的BW800,第3条记录开始，读10条记录 发送报文如下 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">04</td>
+<td align="center">03    00</td>
+<td align="center">0A</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> BW800回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">16*10+5</td>
+<td align="center">84</td>
+<td align="center">03   00</td>
+<td align="center">0A</td>
+<td>记录3 记录4 记录5...记录14</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 如剩余记录不足，则返回剩余的记录，如上面的例子，剩余记录只有5条，则返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">16*5+5</td>
+<td align="center">84</td>
+<td align="center">03   00</td>
+<td align="center">05</td>
+<td>记录3 记录4 记录5...记录9</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 如剩余0条记录，则返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">5+0*16</td>
+<td align="center">84</td>
+<td align="center">03   00</td>
+<td align="center">00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="53-c05">5.3 读取记录明细 C=05</h4>
+<p><strong> 最多3200条记录 每次下料产生一条 </strong></p>
+<div class="codehilite"><pre>Addr 为BW800起始记录编号
+DLen , 为要读多少条记录，最多一次读10条
+注，每条记录长度为16字节
+</pre></div>
+
+
+<p><strong>  如要读取设备地址为999(0x3E7)的BW800,第3条记录开始，读10条记录 发送报文如下 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">05</td>
+<td align="center">05</td>
+<td align="center">03    00</td>
+<td align="center">0A</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> BW800回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">16*10+5</td>
+<td align="center">85</td>
+<td align="center">03   00</td>
+<td align="center">0A</td>
+<td>记录3 记录4 记录5...记录14</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 如剩余记录不足，则返回剩余的记录，如上面的例子，剩余记录只有5条，则返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th>DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">16*5+5</td>
+<td align="center">85</td>
+<td align="center">03   00</td>
+<td align="center">05</td>
+<td>记录3 记录4 记录5...记录9</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 如剩余0条记录，则返回 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">5+0*16</td>
+<td align="center">85</td>
+<td align="center">03   00</td>
+<td align="center">00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="6-c0x10">6. C=0x10 登录/读取终端信息/心跳/登出</h3>
+<h4 id="61-addr-0">6.1 终端主动登录服务器 Addr = 0</h4>
+<p><strong> 服务器收到 控制设备地址为999(0x3E7)的BW800发送的登录报文 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="left">TYPE</th>
+<th align="left">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">0A</td>
+<td align="center">10</td>
+<td align="center">00   00</td>
+<td align="center">05</td>
+<td align="left">02(设备类型)</td>
+<td align="left">E7 03 00 00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 服务器回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">90</td>
+<td align="center">00   00</td>
+<td align="center">01</td>
+<td align="center">00（正确）</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="62">6.2 服务器读取终端信息</h4>
+<p><strong> 服务器发送查询报文 Addr=0 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">FF</td>
+<td align="left">FF FF FF FF</td>
+<td align="right">05</td>
+<td align="center">10</td>
+<td align="center">00   00</td>
+<td align="center">05</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 服务器回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">0A</td>
+<td align="center">90</td>
+<td align="center">00   00</td>
+<td align="center">05</td>
+<td align="center">02(设备类型) E7 03 00 00(设备地址)</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="63">6.3 终端主动发送心跳报文</h4>
+<p><strong> BW800 发送报文  Addr = 1 如要控制设备地址为999(0x3E7)的BW800发送心跳报文 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="left">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">10</td>
+<td align="center">01   00</td>
+<td align="center">01</td>
+<td align="left">00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 服务器回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">90</td>
+<td align="center">01   00</td>
+<td align="center">01</td>
+<td align="center">00（正确）</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="63_1">6.3 终端主动发送登出报文</h4>
+<p><strong> BW800 发送报文  Addr = 2 如要控制设备地址为999(0x3E7)的BW800发送登出报文 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="left">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">10</td>
+<td align="center">02   00</td>
+<td align="center">01</td>
+<td align="left">00</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+<p><strong> 服务器回复 </strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">DTYPE</th>
+<th align="left">DTYPE</th>
+<th align="left">DADDR</th>
+<th align="right">Len</th>
+<th align="center">C</th>
+<th align="center">Addr</th>
+<th align="center">DLen</th>
+<th align="center">DATA</th>
+<th align="center">CS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">8A 9B</td>
+<td align="left">02</td>
+<td align="left">E7 03 00 00</td>
+<td align="right">06</td>
+<td align="center">90</td>
+<td align="center">02   00</td>
+<td align="center">01</td>
+<td align="center">00（正确）</td>
+<td align="center">CS</td>
+</tr>
+</tbody>
+</table>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>

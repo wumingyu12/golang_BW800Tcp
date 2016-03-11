@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	//fork后修改了的库
 	"github.com/divan/gorilla-xmlrpc/xml"
 	"log"
 	"net/http"
@@ -30,8 +31,8 @@ func XmlRpcCall(method string, args Send) (reply struct{ Message string }, err e
 }
 
 func main() {
-	send := Send{"11", "1", "1989112", "nmbw800.mymodel", "test", "1"}
-	reply, err := XmlRpcCall("execute_kw", send)
+	send := Send{"11", "1", "1989112", "nmbw800.mymodel", "test", "2222"}
+	reply, err := XmlRpcCall("execute", send)
 	if err != nil {
 		log.Fatal(err)
 	}

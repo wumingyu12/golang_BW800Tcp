@@ -1,6 +1,8 @@
 package BW800Tcp
 
 import (
+	"../OdooRpc"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -195,6 +197,7 @@ func messageHandle(this *BW800Instance, msg []byte) {
 
 /*******************************收到心跳包后运行的定时任务*****************************************
 	1.更新参数结构体ParaStruct
+	2.将要更新后的结构体转为json，通过xml-rpc发送到odoo，存入数据库
 *************************************************************************/
 func (this *BW800Instance) PollingTask() {
 	//1.更新参数结构体ParaStruct
@@ -215,4 +218,14 @@ func (this *BW800Instance) PollingTask() {
 		log.Println(err1)
 	}
 	log.Println(this.ParaStruct)
+
+	ss, _ := json.Marshal(this.ParaStruct)
+	fmt.Printf("%s", ss)
+
+	reply, err := OdooRpc.XmlRpcCall("test", string(ss))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(reply)
 }
