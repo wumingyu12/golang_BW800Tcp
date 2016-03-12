@@ -9,7 +9,7 @@ import (
 
 type Send struct {
 	Dbname string //pg数据库
-	Uid    string //用户id
+	Uid    int    //用户id
 	Pwd    string //用户密码
 	Model  string //调用的模块
 	Method string //模块方法
@@ -19,10 +19,10 @@ type Send struct {
 //xmlRpc的post组包
 func XmlRpcCall(method string, args string) (reply struct{ Message string }, err error) {
 
-	send := Send{"11", "1", "1989112", "nmbw800.mymodel", method, args}
+	send := Send{"11", 1, "1989112", "nmbw800.mymodel", method, args}
 	buf, _ := xml.EncodeClientRequest("execute", &send)
 
-	resp, err := http.Post("http://127.0.0.1:5656/xmlrpc/object", "text/xml", bytes.NewBuffer(buf))
+	resp, err := http.Post("http://127.0.0.1:8069/xmlrpc/object", "text/xml", bytes.NewBuffer(buf))
 	if err != nil {
 		return
 	}
