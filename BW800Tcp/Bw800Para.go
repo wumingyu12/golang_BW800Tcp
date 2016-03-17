@@ -2,6 +2,7 @@ package BW800Tcp
 
 import (
 	"errors"
+	"fmt"
 	"github.com/wumingyu12/golang_YuGoTool"
 )
 
@@ -18,7 +19,7 @@ type Bw800Para struct {
 	WaterTime   uint16   //下水时间s
 	WaterSpace  uint16   //下水间隔s
 	UsePass     uint16   //是否使用密码 0 - 不使用 1 - 使用
-	Addr        uint32   //控制器地址
+	Addr        string   //uint32   //控制器地址
 	RouteName   uint32   //路由器名称
 	RoutePass   uint32   //路由器密码
 	ServerIP    []uint32 //服务器IP地址 4个
@@ -35,7 +36,7 @@ type Bw800Para struct {
 }
 
 /************************************
-	用184长的字节实例化这个结构体
+	用184长的字节实例化这个结构体()
 	使用这个方法前要保证已经实例化了
  **********************************/
 func (bw *Bw800Para) Reflash(mes []byte) error {
@@ -86,7 +87,14 @@ func (bw *Bw800Para) Reflash(mes []byte) error {
 	num = num + 2
 	bw.UsePass = YuGoTool.Twobyte_to_uint16(b[num+1], b[num]) //是否使用密码 0 - 不使用 1 - 使用
 	num = num + 2
-	bw.Addr = YuGoTool.Fourbyte_to_uint32(b[num+3], b[num+2], b[num+1], b[num]) //控制器地址
+	bw.Addr = fmt.Sprintf("%d", YuGoTool.Fourbyte_to_uint32(b[num+3], b[num+2], b[num+1], b[num])) //控制器地址
+	if len(bw.Addr) < STRING_LONG {                                                                //如果长度不足
+		var temp string
+		for i := 0; i < STRING_LONG-len(bw.Addr); i++ {
+			temp = temp + "0"
+		}
+		bw.Addr = temp + bw.Addr
+	}
 	num = num + 4
 	bw.RouteName = YuGoTool.Fourbyte_to_uint32(b[num+3], b[num+2], b[num+1], b[num]) //路由器名称
 	num = num + 4
