@@ -24,7 +24,7 @@ type Bw800Para struct {
 	RoutePass   uint32   //路由器密码
 	ServerIP    []uint32 //服务器IP地址 4个
 	ServerPort  uint32   //服务器端口
-	Stage       uint16   //0 - 断奶 1 - 产前 2 - 哺乳
+	Stage       string   //uint16   //改为string 更加明了 0 - 断奶 1 - 产前 2 - 哺乳
 	Day         uint16   //第几日
 	HasEat      uint16   //今天已吃 -- g
 	EatDelay    uint16   //要求喂食延迟
@@ -108,7 +108,18 @@ func (bw *Bw800Para) Reflash(mes []byte) error {
 	}
 	bw.ServerPort = YuGoTool.Fourbyte_to_uint32(b[num+3], b[num+2], b[num+1], b[num]) //服务器端口
 	num = num + 4
-	bw.Stage = YuGoTool.Twobyte_to_uint16(b[num+1], b[num]) //0 - 断奶 1 - 产前 2 - 哺乳
+	//bw.Stage = YuGoTool.Twobyte_to_uint16(b[num+1], b[num]) //0 - 断奶 1 - 产前 2 - 哺乳
+
+	stagetemp := YuGoTool.Twobyte_to_uint16(b[num+1], b[num]) //0 - 断奶 1 - 产前 2 - 哺乳
+	switch stagetemp {
+	case 0:
+		bw.Stage = "断奶"
+	case 1:
+		bw.Stage = "产前"
+	case 2:
+		bw.Stage = "哺乳"
+	}
+
 	num = num + 2
 	bw.Day = YuGoTool.Twobyte_to_uint16(b[num+1], b[num]) //第几日
 	num = num + 2
