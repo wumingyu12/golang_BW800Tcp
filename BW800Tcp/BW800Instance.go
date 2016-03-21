@@ -21,16 +21,17 @@ func init() {
 }
 
 type BW800Instance struct {
-	EquAddr               []byte //设备地址，注意是小端排列如 E7 03 00 00 地址就是0x3e7就是999，
-	TcpConnect            *net.TCPConn
-	IpAndPort             string      //用来唯一表示这个实例对应的ip和端口
-	TheReadMessage        []byte      //最近的一次读取到的报文，ReadThread线程中更新
-	WriteChan             chan []byte //用于存放将要发送的命令
-	WriteExplainChan      chan string //对应这个个命令的说明，用来打印日志
-	ReadChan              chan []byte //用于存放接收到的命令，如果是心跳包，登录包不算会自动回复
-	IfOnline              bool        //是否在线标志位，当收到心跳报文和登录报文会赋值为yes
-	ParaStruct            *Bw800Para  //结构体对应每个控制器的参数结构体
-	PostDayRecordStartNum int16       //日下料记录读取从这里开头作为上传的第一条，每一次心跳触发的任务都会更新
+	EquAddr                  []byte //设备地址，注意是小端排列如 E7 03 00 00 地址就是0x3e7就是999，
+	TcpConnect               *net.TCPConn
+	IpAndPort                string      //用来唯一表示这个实例对应的ip和端口
+	TheReadMessage           []byte      //最近的一次读取到的报文，ReadThread线程中更新
+	WriteChan                chan []byte //用于存放将要发送的命令
+	WriteExplainChan         chan string //对应这个个命令的说明，用来打印日志
+	ReadChan                 chan []byte //用于存放接收到的命令，如果是心跳包，登录包不算会自动回复
+	IfOnline                 bool        //是否在线标志位，当收到心跳报文和登录报文会赋值为yes
+	ParaStruct               *Bw800Para  //结构体对应每个控制器的参数结构体
+	PostDayRecordStartNum    int16       //日下料记录读取从这里开头作为上传的第一条，每一次心跳触发的任务都会更新
+	PostDetailRecordStartNum int16       //详细下料记录读取从这里开头作为上传的第一条，每一次心跳触发的任务都会更新
 }
 
 /*************************用TCP连接实例化一个结构体**********************************************
@@ -204,7 +205,16 @@ func messageHandle(this *BW800Instance, msg []byte) {
 *************************************************************************/
 func (this *BW800Instance) PollingTask() {
 	this.PostParaStruct()
-	this.PostDayRecord(this.PostDayRecordStartNum, 10)
+	reDay := this.PostDayRecord(this.PostDayRecordStartNum, 10, "day")
+	//将结构体推送到odoo中
+	if reDay != "" {
+		OdooRpc.PostDayRecord(reDay)
+	}
+	reDetail := this.PostDayRecord(this.PostDetailRecordStartNum, 10, "detail")
+	//将结构体,详细下料记录，推送到odoo中
+	if reDetail != "" {
+		OdooRpc.PostDetailRecord(reDetail)
+	}
 }
 
 /*************************************************************************
@@ -238,18 +248,31 @@ func (this *BW800Instance) PostParaStruct() {
 
 /***************************************************************
 	将日下料记录推送
-	startList 从哪一条记录开始读起
-	listnum 读多少条记录
+	参数：
+		startList 从哪一条记录开始读起
+		listnum 读多少条记录
+		flag 可设置“day” “detail” 代表你要返回的日记录的记录string 还是详细记录的string
+	返回：json化的记录list,string格式
 ***************************************************************/
-func (this *BW800Instance) PostDayRecord(startList int16, listnum int16) {
+func (this *BW800Instance) PostDayRecord(startList int16, listnum int16, flag string) string {
 	if listnum > 10 { //最多一次多10条
 		log.Println("最多只能一次读10条记录")
-		return
+		return ""
 	}
-	//组包                                         |设备地址              |长度| C    |第几条记录|读几条|Cs
-	getDayRecordExample := []byte{0x8A, 0x9B, 0x02, 0xe7, 0x03, 0x00, 0x00, 0x05, 0x04, 0x03, 0x00, 0x0a, 0xff}
-	getDayRecordMsg := append(getDayRecordExample[0:3], this.EquAddr...)   //在报文头后面加上设备地址
-	getDayRecordMsg = append(getDayRecordMsg, getDayRecordExample[7:9]...) //加长度和C
+	var getRecordExample []byte //命令的参考
+
+	if flag == "day" { //如果是日记录组包
+		//组包                                         |设备地址              |长度| C    |第几条记录|读几条|Cs
+		getRecordExample = []byte{0x8A, 0x9B, 0x02, 0xe7, 0x03, 0x00, 0x00, 0x05, 0x04, 0x03, 0x00, 0x0a, 0xff}
+	} else if flag == "detail" { //如果是需要读详细下料记录
+		//组包                                         |设备地址              |长度| C    |第几条记录|读几条|Cs
+		getRecordExample = []byte{0x8A, 0x9B, 0x02, 0xe7, 0x03, 0x00, 0x00, 0x05, 0x05, 0x03, 0x00, 0x0a, 0xff}
+	} else {
+		log.Println("传入的参数必须为 day 或者 detail")
+		return ""
+	}
+	getDayRecordMsg := append(getRecordExample[0:3], this.EquAddr...)   //在报文头后面加上设备地址
+	getDayRecordMsg = append(getDayRecordMsg, getRecordExample[7:9]...) //加长度和C
 	sbh, sbl := YuGoTool.Int16_to_twobyte(startList)
 	getDayRecordMsg = append(getDayRecordMsg, sbl) //从第几条记录开始读
 	getDayRecordMsg = append(getDayRecordMsg, sbh) //从第几条记录开始读
@@ -257,7 +280,7 @@ func (this *BW800Instance) PostDayRecord(startList int16, listnum int16) {
 	getDayRecordMsg = append(getDayRecordMsg, snl)                           //读多少条记录
 	getDayRecordMsg = append(getDayRecordMsg, Fun_SumCheck(getDayRecordMsg)) //添加校验和
 	//发送获取日记录
-	this.WriteExplainChan <- fmt.Sprintf("获取日下料记录,起始条数:%d,连续读取：%d条\n", startList, listnum)
+	this.WriteExplainChan <- fmt.Sprintf("获取%s下料记录,起始条数:%d,连续读取：%d条\n", flag, startList, listnum)
 	this.WriteChan <- getDayRecordMsg
 	result := <-this.ReadChan
 
@@ -265,8 +288,13 @@ func (this *BW800Instance) PostDayRecord(startList int16, listnum int16) {
 	//先看下返回的记录条目数
 	dlen := int(result[11])
 	if dlen == 0 { //如果读取的结果中没有一条有效记录
-		this.PostDayRecordStartNum = 1 //让下次读取从1开始
-		return
+		if flag == "day" {
+			this.PostDayRecordStartNum = 1 //让下次读取从1开始
+		}
+		if flag == "detail" {
+			this.PostDetailRecordStartNum = 1 //让下次读取从1开始
+		}
+		return ""
 	}
 	dayRecordList := RecordStructList{}      //存放的记录结构体的容器
 	resultData := Fun_handle_message(result) //去掉头尾只有数据部分
@@ -284,23 +312,31 @@ func (this *BW800Instance) PostDayRecord(startList int16, listnum int16) {
 			}
 			ds.Addr = temp + ds.Addr
 		}
-		err := ds.Reflash(resultData[0+16*i:16+16*i], "day")
+		err := ds.Reflash(resultData[0+16*i:16+16*i], flag) //告诉结构体这个数据是以日记录的格式更新还是详细记录的格式更新
 		if err != nil {
 			log.Println(err)
 		}
 		dayRecordList.List = append(dayRecordList.List, ds)
 	}
-	//将结果list 结构体json化发到odoo
-	ss, _ := json.Marshal(dayRecordList)
-	//将结构体推送到odoo中
-	OdooRpc.PostDayRecord(string(ss))
 
-	log.Println(string(ss))
+	//log.Println(string(ss))
 
 	if dlen < int(listnum) { //如果,读取到的是最后一组记录了
-		this.PostDayRecordStartNum = 1 //让下次读取从1开始
+		if flag == "day" {
+			this.PostDayRecordStartNum = 1 //让下次读取从1开始
+		}
+		if flag == "detail" {
+			this.PostDetailRecordStartNum = 1 //让下次读取从1开始
+		}
 	} else {
-		this.PostDayRecordStartNum = this.PostDayRecordStartNum + listnum
+		if flag == "day" {
+			this.PostDayRecordStartNum = this.PostDayRecordStartNum + listnum
+		}
+		if flag == "detail" {
+			this.PostDetailRecordStartNum = this.PostDetailRecordStartNum + listnum
+		}
 	}
-
+	//将结果list 结构体json化发到odoo
+	jsonstruct, _ := json.Marshal(dayRecordList)
+	return string(jsonstruct)
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/wumingyu12/golang_YuGoTool"
+	"time"
 )
 
 type RecordStructList struct {
@@ -57,6 +58,12 @@ func (this *RecordStruct) Reflash(b []byte, dayOrdetail string) error {
 		}
 		this.Date = fmt.Sprintf("%d-%s-%s", da/10000, shiwei, gewei)
 		//fmt.Printf("%d-%s-%s\n", da/10000, shiwei, gewei)
+	}
+	//如果是作为详细下料时间解析的
+	if dayOrdetail == "detail" {
+		t := YuGoTool.Fourbyte_to_uint32(b[num+3], b[num+2], b[num+1], b[num])
+		t = t - 8*60*60
+		this.Date = time.Unix(int64(t), 0).Format("2006-01-02 15:04:05")
 	}
 	num = num + 4
 	this.Amount = YuGoTool.Twobyte_to_uint16(b[num+1], b[num])

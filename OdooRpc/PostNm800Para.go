@@ -13,15 +13,17 @@ func init() {
 
 //常量
 const (
-	XML_RPC_METHOD            = "execute"
-	XML_RPC_URL               = "http://127.0.0.1:8069/xmlrpc/object"
-	DB_NAME                   = "11" //数据库名字
-	UID                       = 1    //登录的用户名id 1 代表admin
-	PWD                       = "1989112"
-	ODOO_PostParaStruct_MODEL = "nmbw800.mymodel"
-	PostParaStruct_Method     = "addIntance"        //推送结构体时接收的方法
-	Odoo_PostDayRecord_Model  = "nmbw800.dayrecord" //推送日记录的模型
-	Odoo_PostDayRecord_Method = "addItemByJson"     //推送日记录的方法
+	XML_RPC_METHOD               = "execute"
+	XML_RPC_URL                  = "http://127.0.0.1:8069/xmlrpc/object"
+	DB_NAME                      = "11" //数据库名字
+	UID                          = 1    //登录的用户名id 1 代表admin
+	PWD                          = "1989112"
+	ODOO_PostParaStruct_MODEL    = "nmbw800.mymodel"
+	PostParaStruct_Method        = "addIntance"           //推送结构体时接收的方法
+	Odoo_PostDayRecord_Model     = "nmbw800.dayrecord"    //推送日记录的模型
+	Odoo_PostDayRecord_Method    = "addItemByJson"        //推送日记录的方法
+	Odoo_PostDetailRecord_Model  = "nmbw800.detailrecord" //推送日记录的模型
+	Odoo_PostDetailRecord_Method = "addItemByJson"        //推送日记录的方法
 )
 
 type Send struct {
@@ -67,6 +69,17 @@ func PostDayRecord(jsonRecordList string) {
 		log.Fatal(err)
 	}
 	log.Printf("添加日记录列表结构体到odoo数据库：%s", reply)
+
+}
+
+//推送详细下料记录到odoo
+func PostDetailRecord(jsonRecordList string) {
+	reply, err := XmlRpcCall(Odoo_PostDetailRecord_Model, Odoo_PostDetailRecord_Method, jsonRecordList)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("添加详细记录列表结构体到odoo数据库：%s", reply)
 
 }
 
